@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +24,8 @@ import lombok.Setter;
 public class TokenUtil {
 
     private static final long EXPIRATION = 60 * 60 * 1000;
-    private static final String EMISSOR = "Projeto_web_api";
-    private static final String SECRET_KEY = "Wv4Ivz2R149!&$OqKZu5!64@vDu@Ihbg";
+    private static final String EMISSOR = "simplelibrary";
+    private static final String SECRET_KEY = "Vw4I2i1R169!&@OqK#u5!64@vDu@Ihbg";
     private static final String PREFIX = "Bearer";
 
     public static String createToken(String subject, List<String> permissions) {
@@ -84,7 +85,11 @@ public class TokenUtil {
 			List<String> permissions = (List<String>) claims.get("permissions");
 
             if (isSubjectValid(subject) && isEmissorValid(issuer) && isExpirationValid(expiration)) {
-                return new UsernamePasswordAuthenticationToken(subject, null, permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+                List<GrantedAuthority> authorities = permissions.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+                return new UsernamePasswordAuthenticationToken(subject, null, authorities);
             }
         }
 

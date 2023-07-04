@@ -32,9 +32,9 @@ public class SecurityConfig {
         	.authorizeHttpRequests((authorizeHttpRequests) ->
  				authorizeHttpRequests
  					.requestMatchers(HttpMethod.GET, "/","api/login","api/cadastro").permitAll()
- 					.requestMatchers(HttpMethod.POST, "api/login","api/cadastro").permitAll()
- 					.requestMatchers(HttpMethod.GET , "api/adm").hasRole("ROLE_ADMIN")
- 					.requestMatchers(HttpMethod.GET , "api/user").hasRole("ROLE_USER")
+ 					.requestMatchers(HttpMethod.GET, "api/adm").hasAuthority("ADMIN")
+ 					.requestMatchers(HttpMethod.GET, "api/user").hasAuthority("USER")
+ 					.requestMatchers(HttpMethod.POST, "api/adm","api/usuarios", "api/login").permitAll()
  					.anyRequest().authenticated());
         http.addFilterBefore(new SecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

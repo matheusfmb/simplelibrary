@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,9 +31,13 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable())
         	.authorizeHttpRequests((authorizeHttpRequests) ->
  				authorizeHttpRequests
- 					.requestMatchers(HttpMethod.GET, "/**").permitAll()
+ 					.requestMatchers(HttpMethod.GET, "/","api/login","api/cadastro").permitAll()
+ 					.requestMatchers(HttpMethod.POST, "api/login","api/cadastro").permitAll()
+ 					.requestMatchers(HttpMethod.GET , "api/adm").hasRole("ROLE_ADMIN")
+ 					.requestMatchers(HttpMethod.GET , "api/user").hasRole("ROLE_USER")
  					.anyRequest().authenticated());
-		return http.build();
+        http.addFilterBefore(new SecurityFilter(), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
 	}
 
 	@Bean

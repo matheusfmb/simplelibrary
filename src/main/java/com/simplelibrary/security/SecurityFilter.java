@@ -15,13 +15,18 @@ public class SecurityFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		if(request.getHeader("Authorization") != null ) {
-			Authentication auth = TokenUtil.validate(request);
-			SecurityContextHolder.getContext().setAuthentication(auth);
+		if (request.getHeader("Authorization") != null) {
+			try {
+				 Authentication auth = TokenUtil.validate(request);
+	             SecurityContextHolder.getContext().setAuthentication(auth);
+			}catch (IllegalArgumentException e) {            
+		         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		         response.setContentType("application/json");
+		         response.getWriter().write("{ \"error\": " + e.getMessage()+ "}");
+		         return;
+			}
+               
 		}
-		
-		filterChain.doFilter(request, response);
-		
-	}
-
+        	filterChain.doFilter(request, response);
+    	}
 }

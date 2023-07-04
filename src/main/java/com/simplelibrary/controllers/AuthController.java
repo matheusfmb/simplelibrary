@@ -2,7 +2,6 @@ package com.simplelibrary.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,16 +37,14 @@ public class AuthController {
 	
 	
 	@GetMapping("api/adm")
-	@Secured("ROLE_ADMIN")
 	public String adm () {
 		return "endpoint do adm";
+		
 	}
 	
 	@GetMapping("api/user")
-	@Secured("ROLE_USER")
 	public String user () {
 		return "endpoint do usuário";
 	}
-
 
 }

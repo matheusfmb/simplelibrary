@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -36,6 +37,7 @@ public class SecurityConfig {
  					.requestMatchers(HttpMethod.GET, "api/user").hasAuthority("USER")
  					.requestMatchers(HttpMethod.POST, "api/adm","api/usuarios", "api/login").permitAll()
  					.anyRequest().authenticated());
+        
         http.addFilterBefore(new SecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 	}

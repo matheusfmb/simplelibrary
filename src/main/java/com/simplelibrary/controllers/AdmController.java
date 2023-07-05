@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.simplelibrary.dto.LivroCadastroDTO;
+import com.simplelibrary.dto.LivroDTO;
 import com.simplelibrary.dto.UsuarioDTO;
 import com.simplelibrary.entities.Adm;
 import com.simplelibrary.services.AdmService;
@@ -36,5 +38,10 @@ public class AdmController {
 	@PostMapping("api/adm")
 	public ResponseEntity<Adm> cadastrarAdm(@Valid @RequestBody Adm adm){
 		return admService.cadastrarAdm(adm);
+	}
+	
+	@PostMapping("api/adm/livros")
+	public ResponseEntity<LivroDTO> cadastrarLivro(@Valid @RequestBody LivroCadastroDTO livrocadastroDTO){
+		return admService.cadastrarLivro(livrocadastroDTO);
 	}
 }

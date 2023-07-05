@@ -33,6 +33,7 @@ public class UsuarioDTO {
 	private String email;
 	
 	@NotNull(message="Senha não pode ser Nulo")
+	@Size(max=50)
 	private String senha;
 	
 	

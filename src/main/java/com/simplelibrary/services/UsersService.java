@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.simplelibrary.dto.LoginDTO;
 import com.simplelibrary.dto.UsuarioDTO;
 import com.simplelibrary.entities.Adm;
@@ -39,7 +38,7 @@ public class UsersService {
 	
 
 	
-//  Usuário
+//  Usuário - VER PERFIL DE OUTROS USUÁRIOS
 	@Transactional(readOnly = true)
 	public ResponseEntity<UsuarioDTO> listarUsuarioPublico(@PathVariable Integer id){
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
@@ -93,7 +92,6 @@ public class UsersService {
 				}
 			}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário ou Senha incorretos");
-		
 	}
 
 }

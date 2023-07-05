@@ -1,0 +1,33 @@
+package com.simplelibrary.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.simplelibrary.dto.LivroDTO;
+import com.simplelibrary.dto.LivroMinDTO;
+import com.simplelibrary.services.LivroService;
+
+@RestController
+public class LivroController {
+	
+	@Autowired
+	private LivroService livroService;
+	
+//	Livros mínimo para listagem página.
+	@GetMapping("api/livros")
+	public ResponseEntity<List<LivroMinDTO>> listarLivros(){
+		return livroService.listarLivrosMin();
+	}
+
+//	Livro específico.
+	@GetMapping("api/livros/{id}")
+	public ResponseEntity<LivroDTO> listarLivro(@PathVariable Integer id){
+		return livroService.listarLivro(id);
+	}
+
+}

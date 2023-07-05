@@ -34,7 +34,7 @@ public class UsersController {
 	}
 	
 // listar Usuário - perfil para outro usuário
-	@GetMapping("api/user/usuarios/{id}")
+	@GetMapping("api/usuarios/{id}")
 	public ResponseEntity<UsuarioDTO> listarUsuarioPublico(@PathVariable Integer id){
 		return usersService.listarUsuarioPublico(id);
 	}

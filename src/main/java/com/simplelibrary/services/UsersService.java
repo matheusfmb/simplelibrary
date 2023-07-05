@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.simplelibrary.dto.LoginDTO;
@@ -35,27 +37,41 @@ public class UsersService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+
 	
+//  Usuário
+	@Transactional(readOnly = true)
+	public ResponseEntity<UsuarioDTO> listarUsuarioPublico(@PathVariable Integer id){
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		if(usuario.isPresent()) {
+			UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get());
+			usuarioDTO.setSenha(null);
+			usuarioDTO.setCpf(null);
+			usuarioDTO.setTelefone(null);
+			return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
+	
+//  Cadastro de Usuário
+	@Transactional
 	public ResponseEntity<UsuarioDTO> cadastrarUsuario (@Valid @RequestBody UsuarioDTO usuarioDTO){
 		String senhaEncoder = passwordEncoder.encode(usuarioDTO.getSenha());
 		Usuario novoUsuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getCpf(),usuarioDTO.getTelefone(),usuarioDTO.getEmail(),senhaEncoder);
 		usuarioRepository.save(novoUsuario);
 		UsuarioDTO novoUsuarioDTO = new UsuarioDTO(novoUsuario);
+		novoUsuarioDTO.setSenha(null);
 		return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuarioDTO);
 	}
 	
-	public ResponseEntity<Adm> cadastroAdm(@RequestBody Adm adm){
-		String senhaEncoder = passwordEncoder.encode(adm.getSenha());
-		Adm admNovo = new Adm(adm.getNome(), adm.getCpf(), adm.getTelefone(),adm.getEmail(),senhaEncoder);
-		admRepository.save(admNovo);
-		return ResponseEntity.status(HttpStatus.CREATED).body(admNovo);
-	}
-	
+//  Login de Usuário ou Adm
 	public ResponseEntity<?> loginUsuarios(@Valid @RequestBody LoginDTO loginDTO){
 		Optional<Usuario> usuario = usuarioRepository.findByEmail(loginDTO.getEmail());
 		if(usuario.isPresent()){
 			if(passwordEncoder.matches(loginDTO.getSenha(), usuario.get().getSenha())){
 				UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get());
+				usuarioDTO.setSenha(null);
 				List<String> permissions = new ArrayList<>();
 				permissions.add("USER");
 				String tokenAuth = TokenUtil.createToken(usuario.get().getEmail(),permissions);
@@ -66,7 +82,8 @@ public class UsersService {
 		}else {
 			Optional<Adm> adm = admRepository.findByEmail(loginDTO.getEmail());
 			if(adm.isPresent()) {
-				if(passwordEncoder.matches(loginDTO.getSenha(), adm.get().getSenha())) {
+				if(passwordEncoder.matches(loginDTO.getSenha(), adm.get().getSenha()));
+					adm.get().setSenha(null);
 					List<String> permissions = new ArrayList<>();
 					permissions.add("ADMIN");
 					String tokenAuth = TokenUtil.createToken(adm.get().getEmail(),permissions);
@@ -75,7 +92,6 @@ public class UsersService {
 					return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.AUTHORIZATION,token.getToken()).body(adm);
 				}
 			}
-		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário ou Senha incorretos");
 		
 	}

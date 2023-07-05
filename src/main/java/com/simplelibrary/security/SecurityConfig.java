@@ -32,10 +32,9 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable())
         	.authorizeHttpRequests((authorizeHttpRequests) ->
  				authorizeHttpRequests
- 					.requestMatchers(HttpMethod.GET, "/","api/login","api/cadastro").permitAll()
- 					.requestMatchers(HttpMethod.GET, "api/adm").hasAuthority("ADMIN")
- 					.requestMatchers(HttpMethod.GET, "api/user").hasAuthority("USER")
- 					.requestMatchers(HttpMethod.POST, "api/adm","api/usuarios", "api/login").permitAll()
+ 					.requestMatchers("api/adm","api/adm/**").hasAuthority("ADMIN")
+ 					.requestMatchers("api/user","api/user/**").hasAnyAuthority("USER","ADMIN")
+ 					.requestMatchers(HttpMethod.POST,"api/cadastro", "api/login").permitAll()
  					.anyRequest().authenticated());
         
         http.addFilterBefore(new SecurityFilter(), UsernamePasswordAuthenticationFilter.class);

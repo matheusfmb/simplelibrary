@@ -26,6 +26,35 @@ public class LivroService {
 	private LivroRepository livroRepository;
 	
 	
+//	LIVRO POR CATEGORIA ID
+	@Transactional(readOnly = true)
+	public ResponseEntity<List<LivroDTO>> listarLivroPorCategoria(@PathVariable Integer id){
+		List<Livro> livros = livroRepository.findByCategoriaId(id);
+		List<LivroDTO> livrosDTO = livros.stream().map(livro -> {
+			LivroDTO livroDTO = new LivroDTO(livro);	
+			
+			List<AutorMinDTO> autoresDTO = new ArrayList<>();
+	        livro.getAutor().forEach(autor -> {
+	            AutorMinDTO autorDTO = new AutorMinDTO(autor);
+	            autoresDTO.add(autorDTO);
+	        });
+	        livroDTO.setAutor(autoresDTO);
+	        
+	        List<Categoria> categoriasDTO = new ArrayList<>();
+	        livro.getCategoria().forEach(categoria -> {
+	            Categoria categoriaDTO = new Categoria(categoria.getIdCategoria(),categoria.getNomeCategoria());
+	            categoriasDTO.add(categoriaDTO);
+	        });
+	        livroDTO.setCategoria(categoriasDTO);
+			return livroDTO;
+			
+		}).collect(Collectors.toList());
+		return ResponseEntity.status(HttpStatus.OK).body(livrosDTO);
+		
+		
+	}
+	
+	
 //	Listagem para catálogo Mínimas informações.
 	@Transactional(readOnly = true)
 	public ResponseEntity<List<LivroMinDTO>> listarLivrosMin(){

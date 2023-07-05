@@ -29,5 +29,11 @@ public class LivroController {
 	public ResponseEntity<LivroDTO> listarLivro(@PathVariable Integer id){
 		return livroService.listarLivro(id);
 	}
+	
+	@GetMapping("api/livros/categoria/{id}")
+	public ResponseEntity<List<LivroDTO>> listarLivroPorCategoria(@PathVariable Integer id){
+		return livroService.listarLivroPorCategoria(id);
+	}
+	
 
 }

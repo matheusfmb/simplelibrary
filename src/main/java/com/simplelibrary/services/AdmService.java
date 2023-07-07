@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.simplelibrary.dto.AutorMinDTO;
 import com.simplelibrary.dto.LivroCadastroDTO;
 import com.simplelibrary.dto.LivroDTO;
+import com.simplelibrary.dto.LivroUpdateDTO;
 import com.simplelibrary.dto.UsuarioDTO;
 import com.simplelibrary.entities.Adm;
 import com.simplelibrary.entities.Autor;
@@ -87,7 +89,7 @@ public class AdmService {
 		return ResponseEntity.status(HttpStatus.CREATED).body(admNovo);
 	}
 	
-//  ADM Cadastro de Livro.
+//  ADM - Cadastro de Livro.
 	@Transactional
 	public ResponseEntity<LivroDTO> cadastrarLivro(@Valid @RequestBody LivroCadastroDTO livroCadastroDTO) {
 		Livro isCreated = livroRepository.findByNomeLivro(livroCadastroDTO.getNomeLivro());
@@ -131,6 +133,26 @@ public class AdmService {
 		
         return ResponseEntity.status(HttpStatus.CREATED).body(livroDTO);
 	}
+	
+	
+	public ResponseEntity<LivroDTO> atualizarLivro(@PathVariable Integer id, @Valid @RequestBody LivroUpdateDTO livroUpdateDTO) {
+		Optional<Livro> livro = livroRepository.findById(id);
+		if(livro.isPresent()) {
+			BeanUtils.copyProperties(livroUpdateDTO, livro);
+			try {
+				livroRepository.save(livro.get());
+				LivroDTO livroDTO = new LivroDTO(livro.get());
+				return ResponseEntity.status(HttpStatus.OK).body(livroDTO);
+			}catch(Exception e){
+				 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+	}
+	
+	
 	
 	
 

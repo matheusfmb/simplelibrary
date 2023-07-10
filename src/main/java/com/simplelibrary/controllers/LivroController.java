@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.simplelibrary.dto.LivroDTO;
 import com.simplelibrary.dto.LivroMinDTO;
 import com.simplelibrary.services.LivroService;
@@ -41,5 +40,5 @@ public class LivroController {
 	public ResponseEntity<List<LivroDTO>> listarLivroPorAutor(@PathVariable Integer id){
 		return livroService.listarLivroPorAutor(id);
 	}
-
+	
 }

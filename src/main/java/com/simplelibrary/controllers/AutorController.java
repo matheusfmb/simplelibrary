@@ -7,8 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.simplelibrary.dto.AutorDTO;
-import com.simplelibrary.dto.AutorMinDTO;
+import com.simplelibrary.dto.min.AutorMinDTO;
 import com.simplelibrary.services.AutorService;
 
 @RestController

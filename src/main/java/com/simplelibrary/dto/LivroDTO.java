@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import com.simplelibrary.dto.min.AutorMinDTO;
 import com.simplelibrary.entities.Categoria;
 import com.simplelibrary.entities.Livro;
 

@@ -1,6 +1,7 @@
 package com.simplelibrary.dto;
 import org.springframework.beans.BeanUtils;
 
+import com.simplelibrary.dto.min.LivroMinDTO;
 import com.simplelibrary.entities.Avaliacao;
 import com.simplelibrary.entities.Usuario;
 
@@ -24,7 +25,7 @@ public class AvaliacaoDTO {
 	private Usuario Usuario ;
 	
 	@NotNull(message="Livro não pode ser Nulo")
-	private Integer idLivro;
+	private LivroMinDTO Livro;
 	
 	
 	public AvaliacaoDTO() {

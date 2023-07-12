@@ -1,4 +1,4 @@
-package com.simplelibrary.dto;
+package com.simplelibrary.dto.min;
 
 import org.springframework.beans.BeanUtils;
 

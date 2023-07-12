@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.simplelibrary.dto.AutorMinDTO;
-import com.simplelibrary.dto.LivroCadastroDTO;
 import com.simplelibrary.dto.LivroDTO;
-import com.simplelibrary.dto.LivroMinDTO;
-import com.simplelibrary.dto.LivroUpdateDTO;
+import com.simplelibrary.dto.create.LivroCadastroDTO;
+import com.simplelibrary.dto.min.AutorMinDTO;
+import com.simplelibrary.dto.min.LivroMinDTO;
+import com.simplelibrary.dto.update.LivroUpdateDTO;
 import com.simplelibrary.entities.Autor;
 import com.simplelibrary.entities.Categoria;
 import com.simplelibrary.entities.Livro;

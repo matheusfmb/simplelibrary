@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import com.simplelibrary.dto.AutorDTO;
-import com.simplelibrary.dto.AutorMinDTO;
+import com.simplelibrary.dto.min.AutorMinDTO;
 import com.simplelibrary.entities.Autor;
 import com.simplelibrary.repositories.AutorRepository;
 import jakarta.validation.Valid;

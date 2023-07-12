@@ -1,6 +1,7 @@
 package com.simplelibrary.controllers;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.simplelibrary.dto.AutorDTO;
-import com.simplelibrary.dto.LivroCadastroDTO;
+import com.simplelibrary.dto.AvaliacaoDTO;
 import com.simplelibrary.dto.LivroDTO;
-import com.simplelibrary.dto.LivroUpdateDTO;
 import com.simplelibrary.dto.UsuarioDTO;
+import com.simplelibrary.dto.create.LivroCadastroDTO;
+import com.simplelibrary.dto.update.LivroUpdateDTO;
 import com.simplelibrary.entities.Adm;
 import com.simplelibrary.services.AdmService;
 import com.simplelibrary.services.AutorService;
+import com.simplelibrary.services.AvaliacaoService;
 import com.simplelibrary.services.LivroService;
 
 import jakarta.validation.Valid;
@@ -25,14 +29,13 @@ import jakarta.validation.Valid;
 public class AdmController {
 	
 	@Autowired
-	private AutorService autorService;
-	
+	private AvaliacaoService avaliacaoService;
 	@Autowired
-	private AdmService admService;
-	
+	private AutorService autorService;
+	@Autowired
+	private AdmService admService;	
 	@Autowired
 	private LivroService livroService;
-	
 	
 //  ADM - LISTAR USUÁRIOS PARA ADM.
 	@GetMapping("api/adm/usuarios")
@@ -68,6 +71,12 @@ public class AdmController {
 	@PostMapping("api/adm/autores")
 	public ResponseEntity<AutorDTO> cadastroAutor(@Valid @RequestBody AutorDTO autorCadastroDTO){
 		return autorService.cadastrarAutor(autorCadastroDTO);
+	}
+	
+// 	ADM - LISTAR AVALIAÇÕES DO USUÁRIO ESPECÍFICO.
+	@GetMapping("api/adm/avaliacoes/usuarios/{id}")
+	public ResponseEntity<List<AvaliacaoDTO>> listarAvaliacoesByUsuario(@PathVariable Integer id){
+		return avaliacaoService.listarAvaliacaoByUsuario(id);
 	}
 	
 	

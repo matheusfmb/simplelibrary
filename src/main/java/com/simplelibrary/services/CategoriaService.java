@@ -27,7 +27,5 @@ public class CategoriaService {
 			return categoriaDTO;}).collect(Collectors.toList());
 		return ResponseEntity.status(HttpStatus.OK).body(categoriasDTO);
 		}
-	
 }
-
 

@@ -32,7 +32,7 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable())
         	.authorizeHttpRequests((authorizeHttpRequests) ->
  				authorizeHttpRequests
- 					.requestMatchers(HttpMethod.GET,"api/livros","api/livros/**","api/autores","api/autores/**","api/categoria","api/categoria/**").permitAll()
+ 					.requestMatchers(HttpMethod.GET,"api/livros","api/livros/**","api/autores","api/autores/**","api/categoria","api/categoria/**","api/avaliacao/**").permitAll()
  					.requestMatchers(HttpMethod.POST,"api/cadastro", "api/login").permitAll()
  					.requestMatchers("api/adm","api/adm/**").hasAuthority("ADMIN")
  					.requestMatchers("api/user","api/user/**").hasAnyAuthority("ADMIN","USER")

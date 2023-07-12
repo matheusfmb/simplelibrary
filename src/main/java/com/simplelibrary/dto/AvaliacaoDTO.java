@@ -2,6 +2,7 @@ package com.simplelibrary.dto;
 import org.springframework.beans.BeanUtils;
 
 import com.simplelibrary.entities.Avaliacao;
+import com.simplelibrary.entities.Usuario;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -20,10 +21,10 @@ public class AvaliacaoDTO {
 	private String comentario;
 	
 	@NotNull(message="Usuário não pode ser Nulo")
-	private Integer idUsuario ;
+	private Usuario Usuario ;
 	
 	@NotNull(message="Livro não pode ser Nulo")
-	private Integer livro;
+	private Integer idLivro;
 	
 	
 	public AvaliacaoDTO() {

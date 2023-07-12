@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.simplelibrary.dto.AutorDTO;
 import com.simplelibrary.dto.AvaliacaoDTO;
+import com.simplelibrary.dto.CategoriaDTO;
 import com.simplelibrary.dto.LivroDTO;
 import com.simplelibrary.dto.UsuarioDTO;
 import com.simplelibrary.dto.create.LivroCadastroDTO;
@@ -21,6 +22,7 @@ import com.simplelibrary.entities.Adm;
 import com.simplelibrary.services.AdmService;
 import com.simplelibrary.services.AutorService;
 import com.simplelibrary.services.AvaliacaoService;
+import com.simplelibrary.services.CategoriaService;
 import com.simplelibrary.services.LivroService;
 
 import jakarta.validation.Valid;
@@ -28,6 +30,8 @@ import jakarta.validation.Valid;
 @RestController
 public class AdmController {
 	
+	@Autowired
+	private CategoriaService categoriaService;
 	@Autowired
 	private AvaliacaoService avaliacaoService;
 	@Autowired
@@ -53,6 +57,12 @@ public class AdmController {
 	@PostMapping("api/adm")
 	public ResponseEntity<Adm> cadastrarAdm(@Valid @RequestBody Adm adm){
 		return admService.cadastrarAdm(adm);
+	}
+
+//  ADM - CADASTRO DE CATEGORIA
+	@PostMapping("api/adm/categorias")
+	public ResponseEntity<CategoriaDTO> cadastrarCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO){
+		return categoriaService.cadastrarCategoria(categoriaDTO);
 	}
 	
 //  ADM - CADASTRO DE LIVRO

@@ -15,7 +15,7 @@ import com.simplelibrary.services.UsersService;
 import jakarta.validation.Valid;
 
 @RestController
-public class UsersController {
+public class UsuarioController {
 		
 	@Autowired
 	private UsersService usersService;

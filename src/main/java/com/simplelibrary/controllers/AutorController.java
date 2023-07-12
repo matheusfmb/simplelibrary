@@ -18,11 +18,13 @@ public class AutorController {
 	private AutorService autorService;
 	
 	
+//  Listar autores
 	@GetMapping("api/autores")
 	public ResponseEntity<List<AutorMinDTO>> listarAutores(){
 		return autorService.litarAutores();
 	}
-	
+
+//  Listar autor
 	@GetMapping("api/autores/{id}")
 	public ResponseEntity<AutorDTO> listarAutor(@PathVariable Integer id){
 		return autorService.listarAutor(id);

@@ -34,33 +34,45 @@ public class AvaliacaoService {
 //  Avaliações por livro livro - público.
 	@Transactional(readOnly=true)
 	public ResponseEntity<List<AvaliacaoDTO>> listarAvaliacaoByLivroId(@PathVariable Integer id){
-		Livro livro = livroRepository.findById(id).get();
-		List<Avaliacao> avaliacaoByLivro = avaliacaoRepository.findByLivro(livro);
-		List<AvaliacaoDTO> avaliacaoByLivroDTO = avaliacaoByLivro.stream().map(avaliacao ->{
-			AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO(avaliacao);
-			LivroMinDTO livroDTO = new LivroMinDTO(avaliacao.getLivro());
-			avaliacaoDTO.setLivro(livroDTO);
-			avaliacaoDTO.getUsuario().setSenha("");
-			avaliacaoDTO.getUsuario().setCpf("");
-			avaliacaoDTO.getUsuario().setTelefone("");
-			return avaliacaoDTO;}).collect(Collectors.toList());
-		
-		return ResponseEntity.status(HttpStatus.OK).body(avaliacaoByLivroDTO); 
+		try {
+			Livro livro = livroRepository.findById(id).get();
+			if (livro == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			List<Avaliacao> avaliacaoByLivro = avaliacaoRepository.findByLivro(livro);
+			List<AvaliacaoDTO> avaliacaoByLivroDTO = avaliacaoByLivro.stream().map(avaliacao ->{
+				AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO(avaliacao);
+				LivroMinDTO livroDTO = new LivroMinDTO(avaliacao.getLivro());
+				avaliacaoDTO.setLivro(livroDTO);
+				avaliacaoDTO.getUsuario().setSenha("");
+				avaliacaoDTO.getUsuario().setCpf("");
+				avaliacaoDTO.getUsuario().setTelefone("");
+				return avaliacaoDTO;}).collect(Collectors.toList());
+			return ResponseEntity.status(HttpStatus.OK).body(avaliacaoByLivroDTO); 
+		}catch (Exception e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 //	ADM.
 	@Transactional(readOnly = true)
 	public ResponseEntity<List<AvaliacaoDTO>> listarAvaliacaoByUsuario(@PathVariable Integer id){
-		Usuario usuario = usuarioRepository.findById(id).get();
-		List<Avaliacao> avaliacaoByUsuario = avaliacaoRepository.findByUsuario(usuario);
-		List<AvaliacaoDTO> avaliacaoByLivroDTO = avaliacaoByUsuario.stream().map(avaliacao ->{
-			AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO(avaliacao);
-			LivroMinDTO livroDTO = new LivroMinDTO(avaliacao.getLivro());
-			avaliacaoDTO.setLivro(livroDTO);
-			avaliacaoDTO.getUsuario().setSenha("");
-			return avaliacaoDTO;}).collect(Collectors.toList());
-		
-		return ResponseEntity.status(HttpStatus.OK).body(avaliacaoByLivroDTO); 
+		try {
+			Usuario usuario = usuarioRepository.findById(id).get();
+			if (usuario == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			List<Avaliacao> avaliacaoByUsuario = avaliacaoRepository.findByUsuario(usuario);
+			List<AvaliacaoDTO> avaliacaoByLivroDTO = avaliacaoByUsuario.stream().map(avaliacao ->{
+				AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO(avaliacao);
+				LivroMinDTO livroDTO = new LivroMinDTO(avaliacao.getLivro());
+				avaliacaoDTO.setLivro(livroDTO);
+				avaliacaoDTO.getUsuario().setSenha("");
+				return avaliacaoDTO;}).collect(Collectors.toList());
+			return ResponseEntity.status(HttpStatus.OK).body(avaliacaoByLivroDTO); 
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 

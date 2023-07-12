@@ -25,7 +25,7 @@ public class LivroController {
 	
 //	Livros mínimo para listagem página.
 	@GetMapping("api/livros")
-	public ResponseEntity<List<LivroMinDTO>> listarLivros(){
+	public ResponseEntity<List<LivroMinDTO>> listarLivrosMin(){
 		return livroService.listarLivrosMin();
 	}
 
@@ -37,13 +37,13 @@ public class LivroController {
 	
 //  Listagem de livro por categoria
 	@GetMapping("api/livros/categoria/{id}")
-	public ResponseEntity<List<LivroDTO>> listarLivroPorCategoria(@PathVariable Integer id){
+	public ResponseEntity<List<LivroMinDTO>> listarLivroPorCategoria(@PathVariable Integer id){
 		return livroService.listarLivroPorCategoria(id);
 	}
 	
 // Listagem de livro por Autor
 	@GetMapping("api/livros/autor/{id}")
-	public ResponseEntity<List<LivroDTO>> listarLivroPorAutor(@PathVariable Integer id){
+	public ResponseEntity<List<LivroMinDTO>> listarLivroPorAutor(@PathVariable Integer id){
 		return livroService.listarLivroPorAutor(id);
 	}
 

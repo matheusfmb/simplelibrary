@@ -35,35 +35,48 @@ public class AdmService {
 //	ADM - Listagem de Usuários.
 	@Transactional(readOnly = true)
 	public ResponseEntity<List<UsuarioDTO>> listarUsuariosParaAdm(){
-		List<Usuario> usuarios = usuarioRepository.findAll();
-		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(usuario ->{
-			UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
-			usuarioDTO.setSenha(null);
-			return usuarioDTO;
-		}).collect(Collectors.toList());
-		return ResponseEntity.status(HttpStatus.OK).body(usuariosDTO);
+		try {
+			List<Usuario> usuarios = usuarioRepository.findAll();
+			List<UsuarioDTO> usuariosDTO = usuarios.stream().map(usuario ->{
+				UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
+				usuarioDTO.setSenha("");
+				return usuarioDTO;
+			}).collect(Collectors.toList());
+			return ResponseEntity.status(HttpStatus.OK).body(usuariosDTO);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 //	ADM - Listagem de Usuário.
 	@Transactional(readOnly = true)
 	public ResponseEntity<UsuarioDTO> listarUsuarioParaAdm(@PathVariable Integer id){
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		if(usuario.isPresent()) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get());
-			usuarioDTO.setSenha(null);
-			return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
-		}else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}	
+		try {
+			Optional<Usuario> usuario = usuarioRepository.findById(id);
+			if(usuario.isPresent()) {
+				UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get());
+				usuarioDTO.setSenha("");
+				return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
+			}else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}	
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
-//	ADM - Cadastro de Adm
+//	ADM - Cadastro de Adm - Melhorar dps.
 	@Transactional
 	public ResponseEntity<Adm> cadastrarAdm(@RequestBody Adm adm){
-		String senhaEncoder = passwordEncoder.encode(adm.getSenha());
-		Adm admNovo = new Adm(adm.getNome(), adm.getCpf(), adm.getTelefone(),adm.getEmail(),senhaEncoder);
-		admRepository.save(admNovo);
-		return ResponseEntity.status(HttpStatus.CREATED).body(admNovo);
+		try {
+			String senhaEncoder = passwordEncoder.encode(adm.getSenha());
+			Adm admNovo = new Adm(adm.getNome(), adm.getCpf(), adm.getTelefone(),adm.getEmail(),senhaEncoder);
+			admRepository.save(admNovo);
+			return ResponseEntity.status(HttpStatus.CREATED).body(admNovo);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	
 	}
 
 }

@@ -3,8 +3,7 @@ package com.simplelibrary.dto.min;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
-
-import com.simplelibrary.entities.Categoria;
+import com.simplelibrary.dto.CategoriaDTO;
 import com.simplelibrary.entities.Livro;
 
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class LivroMinDTO {
 	private String imgUrl;
 	
 	private List<AutorMinDTO> autor;
-	private List<Categoria> categoria;
+	private List<CategoriaDTO> categoria;
 	
 	public LivroMinDTO() {
 		

@@ -55,23 +55,25 @@ public class AutorService {
 		
 	}
 	
-	
 //  ADM.	
 	public ResponseEntity<AutorDTO> cadastrarAutor(@Valid @RequestBody AutorDTO autorCadastroDTO){
-		Optional<Autor> autor = autorRepository.findByNomeAutor(autorCadastroDTO.getNomeAutor());
-		if(!autor.isPresent()) {
-			ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}else {
-			Autor novoAutor = new Autor();
-			novoAutor.setAutorDescricao(autorCadastroDTO.getAutorDescricao());
-			novoAutor.setImgUrl(autorCadastroDTO.getImgUrl());
-			novoAutor.setNacionalidade(autorCadastroDTO.getNacionalidade());
-			novoAutor.setNomeAutor(autorCadastroDTO.getNomeAutor());
-			autorRepository.save(novoAutor);
-			AutorDTO autorReturn = new AutorDTO(novoAutor);
-			return ResponseEntity.status(HttpStatus.CREATED).body(autorReturn);
+		try {
+			Optional<Autor> autor = autorRepository.findByNomeAutor(autorCadastroDTO.getNomeAutor());
+			if(autor.isPresent()) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			}else {
+				Autor novoAutor = new Autor();
+				novoAutor.setAutorDescricao(autorCadastroDTO.getAutorDescricao());
+				novoAutor.setImgUrl(autorCadastroDTO.getImgUrl());
+				novoAutor.setNacionalidade(autorCadastroDTO.getNacionalidade());
+				novoAutor.setNomeAutor(autorCadastroDTO.getNomeAutor());
+				autorRepository.save(novoAutor);
+				AutorDTO autorReturn = new AutorDTO(novoAutor);
+				return ResponseEntity.status(HttpStatus.CREATED).body(autorReturn);
+			}	
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 }
 

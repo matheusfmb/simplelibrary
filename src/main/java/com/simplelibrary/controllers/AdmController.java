@@ -1,6 +1,7 @@
 package com.simplelibrary.controllers;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.simplelibrary.dto.AutorDTO;
 import com.simplelibrary.dto.AvaliacaoDTO;
 import com.simplelibrary.dto.CategoriaDTO;
+import com.simplelibrary.dto.EmprestimosDTO;
 import com.simplelibrary.dto.LivroDTO;
 import com.simplelibrary.dto.UsuarioDTO;
 import com.simplelibrary.dto.create.LivroCadastroDTO;
@@ -21,6 +24,7 @@ import com.simplelibrary.services.AdmService;
 import com.simplelibrary.services.AutorService;
 import com.simplelibrary.services.AvaliacaoService;
 import com.simplelibrary.services.CategoriaService;
+import com.simplelibrary.services.EmprestimosService;
 import com.simplelibrary.services.LivroService;
 
 import jakarta.validation.Valid;
@@ -38,6 +42,8 @@ public class AdmController {
 	private AdmService admService;	
 	@Autowired
 	private LivroService livroService;
+	@Autowired
+	private EmprestimosService emprestimosService;
 	
 //  ADM - LISTAR USUÁRIOS PARA ADM.
 	@GetMapping("api/adm/usuarios")
@@ -65,7 +71,7 @@ public class AdmController {
 	
 //  ADM - CADASTRO DE LIVRO
 	@PostMapping("api/adm/livros")
-	public ResponseEntity<LivroDTO> cadastrarLivro(@Valid @RequestBody LivroCadastroDTO livrocadastroDTO){
+	public ResponseEntity<?> cadastrarLivro(@Valid @RequestBody LivroCadastroDTO livrocadastroDTO){
 		return livroService.cadastrarLivro(livrocadastroDTO);
 	}
 	
@@ -85,6 +91,18 @@ public class AdmController {
 	@GetMapping("api/adm/avaliacoes/usuarios/{id}")
 	public ResponseEntity<List<AvaliacaoDTO>> listarAvaliacoesByUsuario(@PathVariable Integer id){
 		return avaliacaoService.listarAvaliacaoByUsuario(id);
+	}
+	
+// ADM - LISTAGEM DE TODOS OS EMPRÉSTIMOS.
+	@GetMapping("api/adm/emprestimos")
+	public ResponseEntity<List<EmprestimosDTO>> listarEmprestimos(){
+		return emprestimosService.listarEmprestimos();
+	}
+	
+// ADM - LISTAGEM DE TODOS OS EMPRÉSTIMOS DE UM USUÁRIO.
+	@GetMapping("api/adm/emprestimos/usuarios/{id}")
+	public ResponseEntity<List<EmprestimosDTO>> listarEmprestimosByUsuarioId(@PathVariable Integer id){
+		return emprestimosService.listarEmprestimosByUsuario(id);
 	}
 	
 	

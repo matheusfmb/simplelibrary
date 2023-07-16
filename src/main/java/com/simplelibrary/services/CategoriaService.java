@@ -21,7 +21,8 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
-	
+
+//	Listagem das categorias
 	@Transactional(readOnly=true)
 	public ResponseEntity<List<CategoriaDTO>> listarCategorias(){
 		try {

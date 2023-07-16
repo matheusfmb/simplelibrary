@@ -35,7 +35,7 @@ public class SecurityConfig {
  					.requestMatchers(HttpMethod.GET,"api/livros","api/livros/**","api/autores","api/autores/**","api/categoria","api/categoria/**","api/avaliacao/**").permitAll()
  					.requestMatchers(HttpMethod.POST,"api/cadastro", "api/login").permitAll()
  					.requestMatchers("api/adm","api/adm/**").hasAuthority("ADMIN")
- 					.requestMatchers("api/user","api/user/**").hasAnyAuthority("ADMIN","USER")
+ 					.requestMatchers("api/user","api/user/**").hasAuthority("USER")
  					.anyRequest().authenticated());
         http.addFilterBefore(new SecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
